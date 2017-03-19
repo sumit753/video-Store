@@ -1,0 +1,24 @@
+﻿@model WeBStore.ViewModel.CustomerMovie
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Movie.Name</h2>
+
+@{ 
+    var className = Model.CustomerList.Count > 2 ? "Popular" : "NotPopular";
+}
+
+@if( Model.CustomerList.Count == 0 )
+{
+    <p>No Customers</p>
+}
+else
+{<ul>
+    @foreach (var customer in Model.CustomerList)
+    {
+        <li class="@className">@customer.Name</li>
+    }
+</ul>
+}
