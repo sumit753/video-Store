@@ -22,7 +22,12 @@
 <br/>
 <table class="table table-bordered table-hover">
     <thead>
-       <tr><th>customer</th></tr> 
+        <tr>
+            <th>Customer</th>
+            <th>Discount</th>
+            <th>Membership Type</th>
+        </tr> 
+        
     </thead>
 
     <tbody>
@@ -30,6 +35,8 @@
     {
         <tr>
             <td>@Html.ActionLink(customer.Name, "Details", "Customer", new { Id = customer.Id }, null)</td>
+            <td>@customer.MembershipType.DiscountRate%</td>
+            <td>@customer.MembershipType.Name</td>
         </tr>
     }
    </tbody>

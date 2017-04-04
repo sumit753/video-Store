@@ -5,4 +5,8 @@
 }
 
 <h2>Details</h2>
-<text> @Model.Name </text> 
+<h3> @Model.Name </h3>
+<li> @Model.Genre.Name</li>
+<li>Date Released : @Model.ReleaseDate.ToLongDateString()</li>
+<li>Date Added : @Model.DateAdded.ToLongDateString()</li>
+<li>No In Stock: @Model.NumberInStock</li>
