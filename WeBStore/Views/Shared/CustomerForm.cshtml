@@ -5,31 +5,44 @@
 }
 
 <h2>New Customer</h2>
+@Html.AntiForgeryToken()
 
 @using (Html.BeginForm("Save", "Customer"))
-{
-     <div class="form-group">
-         @Html.LabelFor(m=>m.Customer.Name)
-         @Html.TextBoxFor(m => m.Customer.Name,new { @class="form-control"})
-     </div>
+{   @Html.ValidationSummary(true,"Please Fix Following Errors")
     <div class="form-group">
-        @Html.LabelFor(m => m.Customer.DateOfBirth)
-        @Html.TextBoxFor(m => m.Customer.DateOfBirth,"{0:d-MMM-yyyy}", new { @class = "form-control" })
+        @Html.LabelFor(m => m.Customer.Name)
+        @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.Name)
     </div>
+    
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.MembershipType)
-        @Html.DropDownListFor(m => m.Customer. MembershipTypeID, new SelectList(Model.MembershipTypes,"Id","Name"),"Select Membership type", new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.Customer.MembershipTypeID, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.MembershipTypeID)
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.DateOfBirth)
+        @Html.TextBoxFor(m => m.Customer.DateOfBirth, "{0:d-MMM-yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.DateOfBirth)
+
+    </div>
+
     <div class="checkbox">
         <label>
-            @Html.CheckBoxFor(M=>M.Customer.isSubscribedToNewsletter) Subscribe to Newsletter
+            @Html.CheckBoxFor(M => M.Customer.isSubscribedToNewsletter) Subscribe to Newsletter
         </label>
     </div>
-    @Html.HiddenFor(m=>m.Customer.Id)
+    @Html.HiddenFor(m => m.Customer.Id)
     <div class="form-group">
-        <button type="submit" class ="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </div>
 
 
 }
+
+@section scripts
+{
+   @Scripts.Render("~/bundles/jqueryval")
+    }
 

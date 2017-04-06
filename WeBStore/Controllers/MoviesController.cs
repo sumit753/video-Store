@@ -39,8 +39,8 @@ public class MoviesController : Controller
 
         var viewModel = new MovieFormViewModel
         {
-            Genres = genres,
-            Formheading = "Add New Movie"
+            Genres = genres
+
 
         };
 
@@ -48,21 +48,21 @@ public class MoviesController : Controller
     }
 
     [HttpPost]
-    public ActionResult Save(MovieFormViewModel viewmodel)
+    public ActionResult Save(Movie movie)
     {
-        if (viewmodel.Movies.Id == 0)
+        if (movie.Id == 0)
         {
-            viewmodel.Movies.DateAdded = DateTime.Now;
-            _context.Movies.Add(viewmodel.Movies);
+            movie.DateAdded = DateTime.Now;
+            _context.Movies.Add(movie);
         }
         else
         {
-            var MovieInDb = _context.Movies.Single(m => m.Id == viewmodel.Movies.Id);
+            var MovieInDb = _context.Movies.Single(m => m.Id == movie.Id);
 
-            MovieInDb.Name = viewmodel.Movies.Name;
-            MovieInDb.NumberInStock = viewmodel.Movies.NumberInStock;
-            MovieInDb.ReleaseDate = viewmodel.Movies.ReleaseDate;
-            MovieInDb.GenreId = viewmodel.Movies.GenreId;
+            MovieInDb.Name = movie.Name;
+            MovieInDb.NumberInStock = movie.NumberInStock;
+            MovieInDb.ReleaseDate = movie.ReleaseDate;
+            MovieInDb.GenreId = movie.GenreId;
 
 
         }
@@ -77,7 +77,23 @@ public class MoviesController : Controller
         return RedirectToAction("Index", "Movies");
     }
 
+    public ActionResult Edit(int Id)
+    {
+        var movie = _context.Movies.SingleOrDefault(m => m.Id == Id);
 
+        if (movie == null)
+            return HttpNotFound();
+
+        var viewModel = new MovieFormViewModel(movie)
+        {
+
+            Genres = _context.Genres.ToList()
+        };
+
+
+        return View("MoviesForm", viewModel);
+
+    }
 
 
 }

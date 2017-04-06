@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace WeBStore.Models
@@ -22,6 +21,7 @@ namespace WeBStore.Models
 
         public DateTime ReleaseDate { get; set; }
 
+        [Range(1, 20)]
         public byte NumberInStock { get; set; }
 
     }
