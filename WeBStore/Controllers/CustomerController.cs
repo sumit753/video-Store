@@ -22,9 +22,9 @@ namespace WeBStore.Controllers
 
         // GET: Customer
         public ActionResult Index()
-        {
-            var customers = _context.Customers.Include(m => m.MembershipType).ToList();
-            return View(customers);
+        {   //fetching data through API so we no longer need this
+            //var customers = _context.Customers.Include(m => m.MembershipType).ToList();
+            return View();
         }
 
         public ActionResult Details(int Id)
