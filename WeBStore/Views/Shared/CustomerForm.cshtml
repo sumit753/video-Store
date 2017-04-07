@@ -5,10 +5,11 @@
 }
 
 <h2>New Customer</h2>
-@Html.AntiForgeryToken()
+
 
 @using (Html.BeginForm("Save", "Customer"))
 {   @Html.ValidationSummary(true,"Please Fix Following Errors")
+    @Html.AntiForgeryToken()
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Name)
         @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })

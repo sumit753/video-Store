@@ -7,6 +7,7 @@
 <h2>@Model.Formheading</h2>
 @using (Html.BeginForm("Save", "Movies"))
 {
+    @Html.AntiForgeryToken()
     <div class="form-group">
         @Html.LabelFor(m => m.Name)
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
