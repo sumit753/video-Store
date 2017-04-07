@@ -15,6 +15,8 @@ namespace WeBStore.Dto
         [Required]
         public byte GenreId { get; set; }
 
+        public GenresDto Genre { get; set; }
+
         public DateTime DateAdded { get; set; }
 
         public DateTime ReleaseDate { get; set; }

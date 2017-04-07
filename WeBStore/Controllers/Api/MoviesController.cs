@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using WeBStore.Dto;
@@ -19,7 +20,7 @@ namespace WeBStore.Controllers.Api
         //Get/ api/Movies
         public IHttpActionResult GetMovies()
         {
-            var movieDto = _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+            var movieDto = _context.Movies.Include(g => g.Genre).ToList().Select(Mapper.Map<Movie, MovieDto>);
             return Ok(movieDto);
         }
 
