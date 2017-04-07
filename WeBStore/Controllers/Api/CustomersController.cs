@@ -30,7 +30,7 @@ namespace WeBStore.Controllers.Api
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customerInDb == null)
-                return NotFound;
+                return NotFound();
 
             return Ok(Mapper.Map<Customer, CustomerDto>(customerInDb));
         }
