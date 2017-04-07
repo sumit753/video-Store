@@ -23,12 +23,13 @@
 <div>
    @Html.ActionLink("New Customer","New","Customer",new { @class = "btn btn-link" })
 </div>
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" id="tblCustomers">
     <thead>
         <tr>
             <th>Customer</th>
             <th>Discount</th>
             <th>Membership Type</th>
+            <th>Delete</th>
         </tr> 
         
     </thead>
@@ -40,8 +41,51 @@
             <td>@Html.ActionLink(customer.Name, "Edit", "Customer", new { Id = customer.Id }, null)</td>
             <td>@customer.MembershipType.DiscountRate%</td>
             <td>@customer.MembershipType.Name</td>
+            <td>
+                <button class="btn btn-link js-delete" data-customer-id="@customer.Id">Delete</button>
+            </td>
         </tr>
     }
    </tbody>
 </table>
 
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            
+            $("#tblCustomers").on("click", ".js-delete", function () {
+                var button = $(this);
+                
+                //implementing bootbox confirm dialog
+
+                bootbox.confirm("Are you Sure,You want to delete this Customer", function (result) {
+
+                    if(result)
+                    {
+                        $.ajax({
+                                    url: "/api/customers/" + button.attr("data-customer-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        button.parents("tr").remove();
+                                    }
+                                });
+                    }
+                });
+
+                //if (confirm("Are you Sure,You want to delete the customer")) {
+                   
+                //    $.ajax({
+                //        url: "/api/customers/" + button.attr("data-customer-id"),
+                //        method: "DELETE",
+                //        success: function () {
+                //            button.parents("tr").remove();
+                //        }
+                //    });
+                //}
+            });
+
+        });
+    </script>
+}
