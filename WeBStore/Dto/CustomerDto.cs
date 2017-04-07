@@ -22,5 +22,7 @@ namespace WeBStore.Dto
 
         [Display(Name = "Membership Type")]
         public byte MembershipTypeID { get; set; }
+
+        public MembershipTypeDto MembershipType { get; set; }
     }
 }
