@@ -18,8 +18,11 @@ public class MoviesController : Controller
     [Route("movies")]
     public ActionResult Index()
     {
-        var Movies = _context.Movies.ToList();
-        return View(Movies);
+        //var Movies = _context.Movies.ToList();
+        if (User.IsInRole(RoleName.CanManageMovies))
+            return View("List");
+
+        return View("ReadonlyList");
     }
 
     public ActionResult Details(int Id)
@@ -33,6 +36,7 @@ public class MoviesController : Controller
 
     }
 
+    [Authorize(Roles = RoleName.CanManageMovies)]
     public ActionResult NewMovie()
     {
         var genres = _context.Genres.ToList();
