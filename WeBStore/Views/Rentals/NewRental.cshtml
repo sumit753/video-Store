@@ -10,14 +10,14 @@
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">  
-              <input id="customerControlID" type="text" value="" class="form-control" />
+              <input id="customerControlID" name="customer" required data-rule-validCustomer="true"  type="text" value="" class="form-control" />
         </div>
 
     </div>
     <div>
         <label>Movies</label>
         <div class="tt-container">
-            <input id="movieControlId" type="text" value="" class="form-control" />
+            <input id="movieControlId" name="movie" data-rule-validMovies="true" type="text" value="" class="form-control" />
         </div>
     </div>
 
@@ -33,10 +33,13 @@
     <button class="btn btn-primary">Submit</button>
 </form>
 
+
 @section scripts
 {   
-   <script>
+    @Scripts.Render("~/bundles/jqueryval")
 
+   <script>
+       
     @*creating blank object*@
 
     $(document).ready(function(){
@@ -63,7 +66,7 @@
     display: 'name',
     source: customers
              }).on("typeahead:select", function (e,customer) {
-                 viewModel.CustomerID = customer.id;
+                 viewModel.customerId = customer.id;
              });
 
    
@@ -92,28 +95,42 @@
 
         viewModel.movieIds.push(movie.id);
     });
+
+    //    //adding custom validation
+
+    $.validator.addMethod("validCustomer", function () {
+        return viewModel.customerId && viewModel.customerId !== 0;
+    },"Please Select a Valid Customer");
     
+    
+    $.validator.addMethod("validMovies", function () {
+        return viewModel.movieIds.length > 0;
+    }, "Please Select Atleast One Movie");
+
         
         //save the form Data
-    $("#NewRentalForm").submit(function (e) {
 
-        e.preventDefault();
+    $("#NewRentalForm").validate({
+        submitHandler: function () {
+           
+            $.ajax({
+                url: "/api/newRental/",
+                method: "post",
+                data: viewModel
 
-        $.ajax({
-            url: "/api/newRental/",
-            method: "post",
-            data: viewModel
+            })
+            .done(function () {
 
-        })
-        .done(function () {
-            
-            toastr.success("Movies Rented Sucessfully");
-        })
-        .fail(function () {
-            toast.fail("Something Went Wrong");
-        });
-
+                toastr.success("Movies Rented Sucessfully");
+            })
+            .fail(function () {
+                toast.fail("Something Went Wrong");
+            });
+            //this will prevent the form being submitted normally
+            return false;
+        }
     });
+    
 
 
     });
