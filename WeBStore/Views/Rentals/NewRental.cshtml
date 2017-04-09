@@ -110,7 +110,7 @@
         
         //save the form Data
 
-    $("#NewRentalForm").validate({
+   var validator= $("#NewRentalForm").validate({
         submitHandler: function () {
            
             $.ajax({
@@ -122,6 +122,19 @@
             .done(function () {
 
                 toastr.success("Movies Rented Sucessfully");
+
+                //clearing the form after sucessfull submission
+                $("#customerControlID").typeahead("val", "");
+                $("#movieControlId").typeahead("val", "");
+                $("#movies").typeahead("val", "");
+
+                viewModel = {
+
+                    movieIds:[]
+                };
+
+                validator.resetForm();
+
             })
             .fail(function () {
                 toast.fail("Something Went Wrong");
