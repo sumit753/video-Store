@@ -12,9 +12,11 @@ namespace WeBStore
                         "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/bootbox.js",
-                      "~/scripts/datatables/jquery.datatables.js",
-                        "~/scripts/datatables/datatables.bootstrap.js"
-                      ));
+                      "~/Scripts/typeahead.bundle.js",
+                      "~/Scripts/datatables/jquery.datatables.js",
+                        "~/Scripts/datatables/datatables.bootstrap.js"
+
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -32,6 +34,7 @@ namespace WeBStore
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lumen.css",
                       "~/content/datatables/css/datatables.bootstrap.css",
+                      "~/content/typeahead.css",
                       "~/Content/site.css"
                       ));
         }

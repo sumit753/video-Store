@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -20,13 +19,32 @@ namespace WeBStore.Controllers.Api
         }
 
         //Get /api/Customers
-        public IEnumerable<CustomerDto> GetCustomers()
+        //public IEnumerable<CustomerDto> GetCustomers()
+        //{
+        //    return _context.Customers
+        //        .Include(m => m.MembershipType)
+        //        .ToList()
+        //        .Select(Mapper.Map<Customer, CustomerDto>);
+        //}
+
+        public IHttpActionResult GetCustomers(string query = null)
         {
-            return _context.Customers
-                .Include(m => m.MembershipType)
+            var customersQuery = _context.Customers
+                .Include(c => c.MembershipType);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+
+            var customerDtos = customersQuery
                 .ToList()
                 .Select(Mapper.Map<Customer, CustomerDto>);
+
+            return Ok(customerDtos);
+
         }
+
+
+
 
         // GET /api/Customer/1
         public IHttpActionResult GetCustomer(int id)
