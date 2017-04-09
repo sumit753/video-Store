@@ -106,9 +106,11 @@
 
         })
         .done(function () {
-            console.log("Done");
+            
+            toastr.success("Movies Rented Sucessfully");
         })
         .fail(function () {
+            toast.fail("Something Went Wrong");
         });
 
     });

@@ -13,6 +13,7 @@ namespace WeBStore
                       "~/Scripts/respond.js",
                       "~/Scripts/bootbox.js",
                       "~/Scripts/typeahead.bundle.js",
+                      "~/Scripts/toastr.js",
                       "~/Scripts/datatables/jquery.datatables.js",
                         "~/Scripts/datatables/datatables.bootstrap.js"
 
@@ -35,6 +36,7 @@ namespace WeBStore
                       "~/Content/bootstrap-lumen.css",
                       "~/content/datatables/css/datatables.bootstrap.css",
                       "~/content/typeahead.css",
+                      "~/Content/toastr.css",
                       "~/Content/site.css"
                       ));
         }
