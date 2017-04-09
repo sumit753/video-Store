@@ -27,6 +27,8 @@ namespace WeBStore.Controllers.Api
         //        .Select(Mapper.Map<Customer, CustomerDto>);
         //}
 
+
+        //we have set "query" parameter equal to null to make it optional.
         public IHttpActionResult GetCustomers(string query = null)
         {
             var customersQuery = _context.Customers

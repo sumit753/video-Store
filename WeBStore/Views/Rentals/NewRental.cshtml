@@ -6,15 +6,29 @@
 
 <h2>New Movie Rental</h2>
 
-<form>
+<form id="NewRentalForm">
     <div class="form-group">
         <label>Customer</label>
-        <input id="customerControlID" type="text" value="" class="form-control" />
+        <div class="tt-container">  
+              <input id="customerControlID" type="text" value="" class="form-control" />
+        </div>
+
     </div>
     <div>
         <label>Movies</label>
-        <input type="text" value="" class="form-control" />
+        <div class="tt-container">
+            <input id="movieControlId" type="text" value="" class="form-control" />
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <ul id="movies" class="list-group"></ul>
+        </div>
+    </div>
+
+    
+
 
     <button class="btn btn-primary">Submit</button>
 </form>
@@ -27,7 +41,9 @@
 
     $(document).ready(function(){
 
-        //var viewModel ={};
+        var viewModel = {
+                     movieIds: []
+            };
 
     var customers = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -46,9 +62,60 @@
     name: 'customers',
     display: 'name',
     source: customers
+             }).on("typeahead:select", function (e,customer) {
+                 viewModel.CustomerID = customer.id;
+             });
+
+   
+
+    var movies = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/api/movies?query=%QUERY',
+            wildcard: '%QUERY'
+        }
     });
+    $('#movieControlId').typeahead(
+    {
+        minLength: 2,
+        highlight: true
+    }, {
+        name: 'movies',
+        display: 'name',
+        source: movies
+    }).on("typeahead:select", function (e, movie) {
+
+        $("#movies").append("<li class='list-group-item'>"+movie.name+"</li>");
+
+        $('#movieControlId').typeahead("val", "");
+
+        viewModel.movieIds.push(movie.id);
+    });
+    
+        
+        //save the form Data
+    $("#NewRentalForm").submit(function (e) {
+
+        e.preventDefault();
+
+        $.ajax({
+            url: "/api/newRental/",
+            method: "post",
+            data: viewModel
+
+        })
+        .done(function () {
+            console.log("Done");
+        })
+        .fail(function () {
+        });
 
     });
+
+
+    });
+
 </script>
 }
 

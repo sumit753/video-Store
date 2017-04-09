@@ -18,9 +18,20 @@ namespace WeBStore.Controllers.Api
         }
 
         //Get/ api/Movies
-        public IHttpActionResult GetMovies()
+        public IHttpActionResult GetMovies(string query = null)
         {
-            var movieDto = _context.Movies.Include(g => g.Genre).ToList().Select(Mapper.Map<Movie, MovieDto>);
+            var queryString = _context.Movies.Include(g => g.Genre).Where(m => m.NumberAvailable > 0);
+
+            if (!String.IsNullOrWhiteSpace(query))
+            {
+                queryString = queryString.Where(m => m.Name.Contains(query));
+            }
+
+
+            var movieDto = queryString
+                            .ToList()
+                            .Select(Mapper.Map<Movie, MovieDto>);
+
             return Ok(movieDto);
         }
 
